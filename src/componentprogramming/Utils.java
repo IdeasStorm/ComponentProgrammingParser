@@ -6,6 +6,7 @@ package componentprogramming;
 import componentprogramming.CompoLexical.Token;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 /**
  *
  * @author mhdsyrwan
@@ -69,6 +70,18 @@ public class Utils {
         
         public HashSet<Identifier> getContents(Identifier key) {
             return rules.get(key);
+        }
+        
+        public Identifier getKey(HashSet<Identifier> contents){
+            Identifier wanted_key = null;
+            for (Entry<Identifier,HashSet<Identifier> > i : rules.entrySet()) {
+                if (i.getValue().equals(contents)){
+                    wanted_key = i.getKey();
+                }
+            }
+            
+            return wanted_key;
+            
         }
     }
 }
