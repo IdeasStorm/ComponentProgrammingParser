@@ -9,7 +9,7 @@ package componentprogramming;
  * @author mhdsyrwan
  */
 public class CompoLexical {
-    public class Token {
+    public static class Token {
     
     }
     
