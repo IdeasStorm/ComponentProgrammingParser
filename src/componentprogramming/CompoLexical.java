@@ -39,17 +39,31 @@ public class CompoLexical {
             if ((Input.charAt(i) == '&')&&(CurrentState.getNextNode(Input.charAt(i))!=null)){
                 res.type = typeToken.ParallelSign ;
                 CurrentState = CurrentState.getNextNode(Input.charAt(i));
-                mCurrentToken = res ;
                 break;
              }else if ((Input.charAt(i) == '(')&&(CurrentState.getNextNode(Input.charAt(i))!=null)){
                 res.type = typeToken.Open ;
+                break;
             }else if ((Input.charAt(i) == ')')&&(CurrentState.getNextNode(Input.charAt(i))!=null)){
                 res.type = typeToken.Closer ;
+                break;
             }else {
-                
+                nodeNFA nextNode  = CurrentState.getNextNode(Input.charAt(i));
+                if (nextNode == null){
+                    //TODO Exception
+                    int ii = 0 ;
+                }else if (nextNode.isFiniteState()){
+                    res.type = typeToken.component ;
+                    CurrentState = nextNode ;
+                    break;
+                }else{
+                    CurrentState = nextNode ;
+                    nextNode = CurrentState.getNextNode(Input.charAt(i));
+                }
+                    
             }
             
         }
+        mCurrentToken = res ;
         return res ;
     }
     
