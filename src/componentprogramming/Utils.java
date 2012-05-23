@@ -39,6 +39,22 @@ public class Utils {
         public Token getToken() {
             return token;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (isToken())
+                return token.equals(((Identifier)o).token);
+            else
+                return name.equals(name);
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
+            return hash;
+        }
+        
         
     }
     static class RulesSet {
