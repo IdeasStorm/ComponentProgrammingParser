@@ -15,5 +15,6 @@ public class ComponentProgramming {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        NFA myt = new NFA();
     }
 }
