@@ -120,6 +120,10 @@ public class CompoLexical {
         return currentToken().toString();
     }
     
+    boolean End() {
+        return (indexInput > Input.length());
+    }
+    
     NFA nfa ;
     String Input ;
     Token mCurrentToken;
