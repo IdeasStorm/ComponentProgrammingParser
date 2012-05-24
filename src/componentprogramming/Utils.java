@@ -116,7 +116,24 @@ public class Utils {
             hash.add(identifier);
             return getKey(hash);
         }
-        
+        private boolean is_in(Vector<Identifier> parent, Vector<Identifier> child) {
+            int pi = 0;
+            int ci = 0;
+            while (true){
+                if (parent.get(pi).equals(child.get(ci))) {
+                    ci++;
+                    pi++;
+                }else {
+                    pi++;
+                }
+                if (ci == child.size()){
+                    return true;
+                }
+                if (pi == parent.size()){
+                    return false;
+                }
+            }
+        }
         public Identifier getKey(Vector<Identifier> contents){
             // S -> AB | a, A -> CDA | a, B -> C
             // contents = AB
@@ -124,7 +141,7 @@ public class Utils {
             Identifier wanted_key = null;
             for (Entry<Identifier, HashSet<Vector<Identifier> > > ii : rules.entrySet() ){
                 for (Vector<Identifier> i : ii.getValue()) {
-                    if (i.containsAll(contents)){
+                    if (is_in(i, contents)){
                         wanted_key = ii.getKey();
                     }
                 }
