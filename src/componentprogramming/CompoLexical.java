@@ -12,6 +12,7 @@ import java.util.*;
  */
 
 public class CompoLexical {
+
     
     public enum typeToken {
         Num,openTok_brace,closeTok_brace ,openBrace,closeBrace ,ParallelSign,dot,comma ;
