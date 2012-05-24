@@ -15,7 +15,7 @@ public class ComponentProgramming {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        CompoLexical myt = new CompoLexical("<11    8,2> <5,6>");
+        CompoLexical myt = new CompoLexical("<");
         myt.nextToken();
         String s  = myt.ImageToken();
         myt.nextToken();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import componentprogramming.Utils.*;
+import java.util.Vector;
 
 /**
  *
@@ -34,66 +35,94 @@ public class CompoParser {
     }
     
     public CompoParser(String Text) {
-        this.Text = Text;
+        //this.Text = Text;
     }
     
-    private HashSet<Utils.Identifier> getIdentifiers(HashSet<Utils.Identifier> h1, 
-            HashSet<Utils.Identifier> h2) {
-        HashSet<Utils.Identifier> res = new HashSet<Utils.Identifier>();
-        for (Utils.Identifier identifier : h1) {
-            for (Utils.Identifier iden : h2) {
-                HashSet<Utils.Identifier> hash = new HashSet<Utils.Identifier>();
-                hash.add(iden);
-                hash.add(identifier);
+    private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
+            Vector<Utils.Identifier> v2) {
+        Vector<Utils.Identifier> res = new Vector<Utils.Identifier>();
+        if (v1.isEmpty()) {
+            for (Utils.Identifier iden : v2) {
+                Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
+                //if (!vect.contains(identifier))
+                //if (!vect.contains(iden))
+                    vect.add(iden);
                 // GET hash for hash & put it in res
-                res.add(rules.getKey(hash));
+                res.add(rules.getKey(vect));
             }
         }
+        
+        if (v2.isEmpty()){
+            for (Utils.Identifier identifier : v1) {
+                Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
+                //if (!vect.contains(identifier))
+                    vect.add(identifier);
+                //if (!vect.contains(iden))
+            //        vect.add(iden);
+                // GET hash for hash & put it in res
+                res.add(rules.getKey(vect));
+            }
+        }
+        for (Utils.Identifier identifier : v1) {
+            for (Utils.Identifier iden : v2) {
+                Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
+                //if (!vect.contains(identifier))
+                    vect.add(identifier);
+                //if (!vect.contains(iden))
+                    vect.add(iden);
+                // GET hash for hash & put it in res
+                res.add(rules.getKey(vect));
+            }
+        }
+        
         return res;
     }
     
     public boolean parse(String string, Utils.RulesSet rules) {
-        int n = Text.length();
+        int n = 0;
         this.rules = rules;
-        LinkedList<LinkedList<HashSet<Utils.Identifier>> > Table  
-                = new LinkedList<LinkedList<HashSet<Utils.Identifier>>>();
+        LinkedList<LinkedList<Vector<Utils.Identifier>> > Table  
+                = new LinkedList<LinkedList<Vector<Utils.Identifier>>>();
         
-        LinkedList<HashSet<Utils.Identifier>> row = 
-                    new LinkedList<HashSet<Utils.Identifier>>();
+        LinkedList<Vector<Utils.Identifier>> row = 
+                    new LinkedList<Vector<Utils.Identifier>>();
         CompoLexical lex = new CompoLexical(string);
-        while(!lex.end()) {
-            lex.nextToken();
+        while(lex.nextToken() != null) {
             // GET Gramer for input and put it in hash
-            HashSet<Identifier> hash = rules.getKey(new Identifier(lex.currentToken()));
-            row.add(hash);
+            Vector<Identifier> vect = rules.getMultiKey(new Identifier(lex.currentToken()));
+            row.add(vect);
+            n++;
         }
         // Add Linked list to Table
-        Table.add(row);
+        Table.add((LinkedList<Vector<Identifier>>)row.clone());
         
-        row.clear();
-        HashSet<Utils.Identifier> V = new HashSet<Utils.Identifier>();
+        Vector<Utils.Identifier> V = new Vector<Utils.Identifier>();
         for (int j=1; j<n; j++) {
-            for (int i=0; i<n-j+1; i++) {
+            row.clear();
+            for (int i=0; i<n-j; i++) {
                 V.clear();
-                for (int k=0; k<j-1; j++) {
+                for (int k=0; k<j; k++) {
                     // GET String Gramer and put it in Set
-                    LinkedList<HashSet<Utils.Identifier>> FirstList = Table.get(i);
-                    LinkedList<HashSet<Utils.Identifier>> SecondList = Table.get(i+k);
-                    HashSet<Utils.Identifier> h1 = FirstList.get(k);
-                    HashSet<Utils.Identifier> h2 = SecondList.get(j-k);
+                    LinkedList<Vector<Utils.Identifier>> FirstList = Table.get(k);
+                    LinkedList<Vector<Utils.Identifier>> SecondList = Table.get(j-k-1);
+                    Vector<Utils.Identifier> h1 = FirstList.get(i);
+                    Vector<Utils.Identifier> h2 = SecondList.get(i+k+1);
                     for (Utils.Identifier Identifier :getIdentifiers(h1, h2)) {
-                        V.add(Identifier);
+                        if (Identifier != null)
+                            if (!V.contains(Identifier))
+                                V.add(Identifier);
                     }
                 }
-                row.add(V);
+                row.add((Vector<Identifier>) V.clone());   
             }
-            Table.add(row);
+            Table.add((LinkedList<Vector<Identifier>>)row.clone());
+            //TODO do somehting
         }
         if (Table.getLast().getLast().contains(rules.getStart()))
             return true;
         else
             return false;
     }
+    
     private RulesSet rules;
-    private String Text;
 }

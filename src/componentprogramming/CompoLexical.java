@@ -14,14 +14,51 @@ import java.util.*;
 public class CompoLexical {
 
     
-    public enum typeToken {
-        Num,openTok_brace,closeTok_brace ,openBrace,closeBrace ,ParallelSign,dot,comma ;
-    } 
-    public class Token {
+    public static enum typeToken {
+            Num,openTok_brace,closeTok_brace ,openBrace,closeBrace ,ParallelSign,dot,comma,string ;
+    }     
+    public static class Token {
         
+        public Token(){
+            
+        }
+public Token(String str){
+    s = str ;
+    if (s.length() == 1 ){
+        switch(s.charAt(0))
+        {
+            case '(':
+                type = typeToken.openBrace ;
+                break;
+            case ')':
+                type = typeToken.closeBrace ;
+                break;
+            case '<':
+                type = typeToken.openTok_brace ;
+                break;
+            case '>':
+                type = typeToken.closeTok_brace ;
+                break;
+            case '.':
+                type = typeToken.dot;
+                break;
+            case '&':
+                type = typeToken.ParallelSign ;
+                break;
+            case ',':
+                type = typeToken.comma ;
+                break;
+        }
+    }else
+        type = typeToken.string;
+}
+        public Token(typeToken t) {
+            this.type = t;
+            this.s = t.toString();
+        }
         public void Load(String str)
         {
-            
+            s = str ;            
         }
         public String toString()
         {
@@ -33,8 +70,30 @@ public class CompoLexical {
                 return Integer.parseInt(s);
             return -1 ;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Token){
+                Token t = (Token)obj;
+                if (t.type == type){
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 5;
+            hash = 71 * hash + (this.type != null ? this.type.hashCode() : 0);
+            return hash;
+        }
+
+        
+        
         private  typeToken type ;
-        private String s ;
+        private  String s ;
     }
 
 
@@ -49,11 +108,11 @@ public class CompoLexical {
     
     Token nextToken(){
         //TODO add next token logic
-        Token res = new Token();
+        Token res = null ;
         String temp = new String() ;
         for (int i =indexInput; i < Input.length(); i++) {
             indexInput++ ; 
-            
+            res = new Token();    
                 nodeNFA nextNode  = CurrentState.getNextNode(Input.charAt(i));
                 if (nextNode == null){
                     //TODO Exception
@@ -106,7 +165,8 @@ public class CompoLexical {
                     CurrentState = nextNode ;
                 }
         }
-        if (indexInput <= Input.length())
+        
+        if (res !=null)
             mCurrentToken = res ;
         return res ;
     }
@@ -117,7 +177,9 @@ public class CompoLexical {
     
     String ImageToken(){
         //TODO return token string
-        return currentToken().toString();
+        if (currentToken() !=null)
+            return currentToken().toString();
+        return "";
     }
     
     boolean end() {
