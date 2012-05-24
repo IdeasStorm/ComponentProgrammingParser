@@ -74,7 +74,11 @@ public class Utils {
             rules.put(key, contents);
         }
         
-        
+        public Identifier getKey(Identifier identifier){
+            HashSet<Identifier> hash = new HashSet<Identifier>();
+            hash.add(identifier);
+            return getKey(hash);
+        }
         public Identifier getKey(HashSet<Identifier> contents){
             Identifier wanted_key = null;
             for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
