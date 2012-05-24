@@ -66,6 +66,29 @@ public class Utils {
             rules = new Hashtable<Identifier, HashSet<HashSet<Identifier>>>();
         }
         
+        public void addRule(String key, String val11,String val12, String val21, String val22) {
+            addRule(new Identifier(key), new Identifier(val11), new Identifier(val12),
+                    new Identifier(val21), new Identifier(val22));
+        }
+        public void addRule(Identifier key, Identifier val11, Identifier val12, Identifier val21, Identifier val22){
+            HashSet<Identifier> right1 = new HashSet<Identifier>();
+            if (!"".equals(val11.name))
+                right1.add(val11);
+            if (!"".equals(val12.name))
+                right1.add(val12);
+            
+            HashSet<Identifier> right2 = new HashSet<Identifier>();
+            if (!val21.name.equals(""))
+                right2.add(val21);
+            if (!val22.name.equals(""))
+                right2.add(val22);
+            
+            HashSet<HashSet<Identifier> > right = new HashSet<HashSet<Identifier>>();
+            right.add(right1);
+            right.add(right2);
+            addRule(key, right);
+        }
+        
         public void addRule(Identifier key, HashSet<HashSet<Identifier> > contents) {
             if (first_time) {
                 start = key;
