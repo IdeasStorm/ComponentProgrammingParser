@@ -45,8 +45,8 @@ public class CompoParser {
                 HashSet<Utils.Identifier> hash = new HashSet<Utils.Identifier>();
                 hash.add(iden);
                 hash.add(identifier);
+                // GET hash for hash & put it in res
                 res.add(rules.getKey(hash));
-                // GET hash for hash put it in res
             }
         }
         return res;
@@ -55,19 +55,17 @@ public class CompoParser {
     public boolean parse(String string, Utils.RulesSet rules) {
         int n = Text.length();
         this.rules = rules;
-        ArrayList<LinkedList<HashSet<Utils.Identifier>> > Table  
-                = new ArrayList<LinkedList<HashSet<Utils.Identifier>>>();
+        LinkedList<LinkedList<HashSet<Utils.Identifier>> > Table  
+                = new LinkedList<LinkedList<HashSet<Utils.Identifier>>>();
         
         LinkedList<HashSet<Utils.Identifier>> row = 
                     new LinkedList<HashSet<Utils.Identifier>>();
         CompoLexical lex = new CompoLexical(string);
         while(!lex.end()) {
             lex.nextToken();
-            // GET Gramer for input Text[i] put it in symbol
+            // GET Gramer for input and put it in hash
             HashSet<Identifier> hash = rules.getContents(new Identifier(lex.currentToken()));
-            //hash.add(getKey);
             row.add(hash);
-            
         }
         // Add Linked list to Table
         Table.add(row);
@@ -79,9 +77,10 @@ public class CompoParser {
                 V.clear();
                 for (int k=0; k<j-1; j++) {
                     // GET String Gramer and put it in Set
-                    //V.add(string);
-                    HashSet<Utils.Identifier> h1 = new HashSet<Utils.Identifier>();
-                    HashSet<Utils.Identifier> h2 = new HashSet<Utils.Identifier>();
+                    LinkedList<HashSet<Utils.Identifier>> FirstList = Table.get(i);
+                    LinkedList<HashSet<Utils.Identifier>> SecondList = Table.get(i+k);
+                    HashSet<Utils.Identifier> h1 = FirstList.get(k);
+                    HashSet<Utils.Identifier> h2 = SecondList.get(j-k);
                     for (Utils.Identifier Identifier :getIdentifiers(h1, h2)) {
                         V.add(Identifier);
                     }
@@ -90,11 +89,10 @@ public class CompoParser {
             }
             Table.add(row);
         }
-        //str is S
-        //if (Table.getLast().contains(str))
+        if (Table.getLast().getLast().contains(rules.getStart()))
             return true;
-        //else
-          //  return false;
+        else
+            return false;
     }
     private RulesSet rules;
     private String Text;
