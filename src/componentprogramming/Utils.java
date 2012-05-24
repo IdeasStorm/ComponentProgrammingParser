@@ -80,6 +80,22 @@ public class Utils {
             rules.put(key, hash);
         }
         
+        public HashSet<Identifier> getMultiKey(Identifier identifier) {
+            HashSet<Identifier> hash = new HashSet<Identifier>();
+            HashSet<Identifier> oneToken = new HashSet<Identifier>();
+            oneToken.add(identifier);
+            for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
+                for (HashSet<Identifier> i : ii.getValue()) {
+                    if (i.equals(oneToken)){
+                        hash.add(ii.getKey());
+                    }
+                }
+            }
+            
+            return hash;
+        }
+        
+        
         public Identifier getKey(Identifier identifier){
             // TODO S -> AB | a, A -> CDA | a, B -> C
             // content = a & HashSet = S, A

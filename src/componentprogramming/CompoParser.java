@@ -53,7 +53,7 @@ public class CompoParser {
     }
     
     public boolean parse(String string, Utils.RulesSet rules) {
-        int n = Text.length();
+        int n = 0;
         this.rules = rules;
         LinkedList<LinkedList<HashSet<Utils.Identifier>> > Table  
                 = new LinkedList<LinkedList<HashSet<Utils.Identifier>>>();
@@ -66,6 +66,7 @@ public class CompoParser {
             // GET Gramer for input and put it in hash
             HashSet<Identifier> hash = rules.getKey(new Identifier(lex.currentToken()));
             row.add(hash);
+            n++;
         }
         // Add Linked list to Table
         Table.add(row);
@@ -94,6 +95,6 @@ public class CompoParser {
         else
             return false;
     }
+    
     private RulesSet rules;
-    private String Text;
 }
