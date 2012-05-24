@@ -59,14 +59,14 @@ public class Utils {
         
     }
     static class RulesSet {
-        private Hashtable<Identifier,HashSet<Identifier> > rules;
+        private Hashtable<Identifier,HashSet<HashSet<Identifier> > > rules;
         private boolean first_time = false;
         private Identifier start = null;
         public RulesSet(){
-            rules = new Hashtable<Identifier, HashSet<Identifier>>();
+            rules = new Hashtable<Identifier, HashSet<HashSet<Identifier>>>();
         }
         
-        public void addRule(Identifier key, HashSet<Identifier> contents) {
+        public void addRule(Identifier key, HashSet<HashSet<Identifier> > contents) {
             if (first_time) {
                 start = key;
                 first_time = false;
@@ -74,15 +74,14 @@ public class Utils {
             rules.put(key, contents);
         }
         
-        public HashSet<Identifier> getContents(Identifier key) {
-            return rules.get(key);
-        }
         
         public Identifier getKey(HashSet<Identifier> contents){
             Identifier wanted_key = null;
-            for (Entry<Identifier,HashSet<Identifier> > i : rules.entrySet()) {
-                if (i.getValue().equals(contents)){
-                    wanted_key = i.getKey();
+            for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
+                for (HashSet<Identifier> i : ii.getValue()) {
+                    if (i.equals(contents)){
+                        wanted_key = ii.getKey();
+                    }
                 }
             }
             
