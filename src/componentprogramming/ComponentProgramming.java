@@ -15,6 +15,28 @@ public class ComponentProgramming {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        NFA myt = new NFA();
+        CompoLexical myt = new CompoLexical("<11    8f,2> <5,6>");
+        myt.nextToken();
+        String s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
+        myt.nextToken();
+        s  = myt.ImageToken();
     }
 }

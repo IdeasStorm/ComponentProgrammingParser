@@ -21,6 +21,10 @@ class NFA {
     AllStates = new HashSet<nodeNFA>();
     finitStates = new HashSet<nodeNFA>();
     startState = new nodeNFA("q0") ;
+    loopState = new nodeNFA("num");
+    FinitState = new nodeNFA("Finit");
+    FinitState.setFinite();
+    finitStates.add(FinitState);
     Alphabetic = new LinkedList<Character>();
     AllStates.add(startState);
 
@@ -38,40 +42,81 @@ class NFA {
     Alphabetic.add('>');
     Alphabetic.add('&');
     Alphabetic.add(',');
+    Alphabetic.add('.');
+    Alphabetic.add(' ');
     LoadNFA();
     }
    
     
     public  void LoadNFA()
     {
-    nodeNFA CurrentState = startState, NextState = startState;
-    Integer CounterState = 1 ; //for generate and save name of states(NodeDFA) q0,1,2,3....
-    NextState = new nodeNFA("q"+CounterState.toString());
-    CounterState ++ ;
-    startState.link('<', NextState);
-    CurrentState = NextState ;
-    for (char ch = '0';ch<='9';ch++)
-    {
-        CurrentState.link(ch);
-    }
-    NextState = new nodeNFA("q"+CounterState.toString());
-    CounterState ++ ;
-    CurrentState.link(',', NextState);
-    CurrentState = NextState ;
-    for (char ch = '0';ch<='9';ch++)
-    {
-        CurrentState.link(ch);
-    }
-    NextState = new nodeNFA("q"+CounterState.toString());
-    CounterState ++ ;
-    CurrentState.link('>', NextState);
-    finitStates.add(NextState);
-    NextState.setFinite();
-    CurrentState = NextState ;
-    CurrentState.link('<',startState.getNextNode('<'));
-    NextState = new nodeNFA("q"+CounterState.toString());
-    CounterState ++ ;
-    CurrentState.link('&', NextState);
+        
+        startState.link('(',FinitState);
+        startState.link(')',FinitState);
+        startState.link('.',FinitState);
+        startState.link('&',FinitState);
+        startState.link('<',FinitState);
+        startState.link('>',FinitState);
+        startState.link(',',FinitState);
+        startState.link(' '); 
+        
+        FinitState.link('(',FinitState);
+        FinitState.link(')',FinitState);
+        FinitState.link('.',FinitState);
+        FinitState.link('&',FinitState);
+        FinitState.link('<',FinitState);
+        FinitState.link('>',FinitState);
+        FinitState.link(',',FinitState);
+        FinitState.link(' ',startState); 
+        for (char ch = '0';ch<='9';ch++)
+        {
+            startState.link(ch,loopState);
+            FinitState.link(ch,loopState);
+        }
+        for (char ch = '0';ch<='9';ch++)
+        {
+            loopState.link(ch);
+        }
+        loopState.link(' ',startState);
+        
+        loopState.link('(',FinitState);
+        loopState.link(')',FinitState);
+        loopState.link('.',FinitState);
+        loopState.link('&',FinitState);
+        loopState.link('<',FinitState);
+        loopState.link('>',FinitState);
+        loopState.link(',',FinitState);
+
+        /*
+        startState.link('(');
+        nodeNFA CurrentState = startState, NextState = startState;
+        Integer CounterState = 1 ; //for generate and save name of states(NodeDFA) q0,1,2,3....
+        NextState = new nodeNFA("q"+CounterState.toString());
+        CounterState ++ ;
+        startState.link('<', NextState);
+        CurrentState = NextState ;
+        for (char ch = '0';ch<='9';ch++)
+        {
+            CurrentState.link(ch);
+        }
+        NextState = new nodeNFA("q"+CounterState.toString());
+        CounterState ++ ;
+        CurrentState.link(',', NextState);
+        CurrentState = NextState ;
+        for (char ch = '0';ch<='9';ch++)
+        {
+            CurrentState.link(ch);
+        }
+        NextState = new nodeNFA("q"+CounterState.toString());
+        CounterState ++ ;
+        CurrentState.link('>', NextState);
+        finitStates.add(NextState);
+        NextState.setFinite();
+        NextState.link(')');
+        CurrentState = NextState ;
+        CurrentState.link('<',startState.getNextNode('<'));
+        CurrentState.link('&', startState);
+        */
     }
     
     public void SimulateNFA(String str)
@@ -87,7 +132,7 @@ class NFA {
    
     
     private LinkedList<Character> Alphabetic ;
-    private nodeNFA startState ; 
+     nodeNFA startState , loopState ,FinitState ; 
     private Set<nodeNFA> finitStates;
     private Set<nodeNFA> AllStates ; 
 }
