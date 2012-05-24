@@ -51,7 +51,18 @@ public class CompoParser {
                 res.add(rules.getKey(vect));
             }
         }
-            
+        
+        if (v2.isEmpty()){
+            for (Utils.Identifier identifier : v1) {
+                Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
+                //if (!vect.contains(identifier))
+                    vect.add(identifier);
+                //if (!vect.contains(iden))
+            //        vect.add(iden);
+                // GET hash for hash & put it in res
+                res.add(rules.getKey(vect));
+            }
+        }
         for (Utils.Identifier identifier : v1) {
             for (Utils.Identifier iden : v2) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
@@ -63,6 +74,7 @@ public class CompoParser {
                 res.add(rules.getKey(vect));
             }
         }
+        
         return res;
     }
     
@@ -84,9 +96,9 @@ public class CompoParser {
         // Add Linked list to Table
         Table.add((LinkedList<Vector<Identifier>>)row.clone());
         
-        row.clear();
         Vector<Utils.Identifier> V = new Vector<Utils.Identifier>();
         for (int j=1; j<n; j++) {
+            row.clear();
             for (int i=0; i<n-j; i++) {
                 V.clear();
                 for (int k=0; k<j; k++) {
