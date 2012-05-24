@@ -64,7 +64,7 @@ public class CompoParser {
         while(!lex.end()) {
             lex.nextToken();
             // GET Gramer for input and put it in hash
-            HashSet<Identifier> hash = rules.getKey(new Identifier(lex.currentToken()));
+            HashSet<Identifier> hash = rules.getMultiKey(new Identifier(lex.currentToken()));
             row.add(hash);
             n++;
         }
