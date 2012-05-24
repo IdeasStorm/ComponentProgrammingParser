@@ -120,7 +120,7 @@ public class CompoLexical {
         return currentToken().toString();
     }
     
-    boolean End() {
+    boolean end() {
         return (indexInput > Input.length());
     }
     

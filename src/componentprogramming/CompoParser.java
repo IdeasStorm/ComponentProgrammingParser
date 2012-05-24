@@ -7,6 +7,7 @@ package componentprogramming;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import componentprogramming.Utils.*;
 
 /**
  *
@@ -36,7 +37,7 @@ public class CompoParser {
         this.Text = Text;
     }
     
-    private HashSet<Utils.Identifier> res(HashSet<Utils.Identifier> h1, 
+    private HashSet<Utils.Identifier> getIdentifiers(HashSet<Utils.Identifier> h1, 
             HashSet<Utils.Identifier> h2) {
         HashSet<Utils.Identifier> res = new HashSet<Utils.Identifier>();
         for (Utils.Identifier identifier : h1) {
@@ -44,25 +45,29 @@ public class CompoParser {
                 HashSet<Utils.Identifier> hash = new HashSet<Utils.Identifier>();
                 hash.add(iden);
                 hash.add(identifier);
+                res.add(rules.getKey(hash));
                 // GET hash for hash put it in res
             }
         }
         return res;
     }
     
-    public boolean parser(String string) {
+    public boolean parse(String string, Utils.RulesSet rules) {
         int n = Text.length();
-        
+        this.rules = rules;
         ArrayList<LinkedList<HashSet<Utils.Identifier>> > Table  
                 = new ArrayList<LinkedList<HashSet<Utils.Identifier>>>();
         
         LinkedList<HashSet<Utils.Identifier>> row = 
                     new LinkedList<HashSet<Utils.Identifier>>();
-        for (int i=0; i<Text.length(); i++) {
+        CompoLexical lex = new CompoLexical(string);
+        while(!lex.end()) {
+            lex.nextToken();
             // GET Gramer for input Text[i] put it in symbol
-            HashSet<Utils.Identifier> hash = new HashSet<Utils.Identifier>();
+            HashSet<Identifier> hash = rules.getContents(new Identifier(lex.currentToken()));
             //hash.add(getKey);
             row.add(hash);
+            
         }
         // Add Linked list to Table
         Table.add(row);
@@ -77,7 +82,7 @@ public class CompoParser {
                     //V.add(string);
                     HashSet<Utils.Identifier> h1 = new HashSet<Utils.Identifier>();
                     HashSet<Utils.Identifier> h2 = new HashSet<Utils.Identifier>();
-                    for (Utils.Identifier Identifier :res(h1, h2)) {
+                    for (Utils.Identifier Identifier :getIdentifiers(h1, h2)) {
                         V.add(Identifier);
                     }
                 }
@@ -91,6 +96,6 @@ public class CompoParser {
         //else
           //  return false;
     }
-    
+    private RulesSet rules;
     private String Text;
 }
