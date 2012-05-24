@@ -34,7 +34,7 @@ public class CompoParser {
     }
     
     public CompoParser(String Text) {
-        this.Text = Text;
+        //this.Text = Text;
     }
     
     private HashSet<Utils.Identifier> getIdentifiers(HashSet<Utils.Identifier> h1, 
