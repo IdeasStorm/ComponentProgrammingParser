@@ -81,11 +81,17 @@ public class Utils {
         }
         
         public Identifier getKey(Identifier identifier){
+            // TODO S -> AB | a, A -> CDA | a, B -> C
+            // content = a & HashSet = S, A
             HashSet<Identifier> hash = new HashSet<Identifier>();
             hash.add(identifier);
             return getKey(hash);
         }
+        
         public Identifier getKey(HashSet<Identifier> contents){
+            // S -> AB | a, A -> CDA | a, B -> C
+            // contents = AB
+            // return S
             Identifier wanted_key = null;
             for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
                 for (HashSet<Identifier> i : ii.getValue()) {
