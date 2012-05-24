@@ -74,7 +74,17 @@ public class Utils {
             rules.put(key, contents);
         }
         
+        public void addRule(Identifier key, HashSet<Identifier> set, boolean one) {
+            HashSet<HashSet<Identifier> > hash = new HashSet<HashSet<Identifier>>();
+            hash.add(set);
+            rules.put(key, hash);
+        }
         
+        public Identifier getKey(Identifier identifier){
+            HashSet<Identifier> hash = new HashSet<Identifier>();
+            hash.add(identifier);
+            return getKey(hash);
+        }
         public Identifier getKey(HashSet<Identifier> contents){
             // S -> AB | a, A -> CDA | a, B -> C
             // contents = AB
