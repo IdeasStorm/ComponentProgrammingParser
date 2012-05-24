@@ -60,11 +60,17 @@ public class Utils {
     }
     static class RulesSet {
         private Hashtable<Identifier,HashSet<Identifier> > rules;
+        private boolean first_time = false;
+        private Identifier start = null;
         public RulesSet(){
             rules = new Hashtable<Identifier, HashSet<Identifier>>();
         }
         
         public void addRule(Identifier key, HashSet<Identifier> contents) {
+            if (first_time) {
+                start = key;
+                first_time = false;
+            }
             rules.put(key, contents);
         }
         
@@ -82,6 +88,10 @@ public class Utils {
             
             return wanted_key;
             
+        }
+        
+        public Identifier getStart() {
+            return start;
         }
     }
 }
