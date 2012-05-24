@@ -6,14 +6,16 @@ package componentprogramming;
 import componentprogramming.CompoLexical.Token;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Vector;
 /**
  *
  * @author mhdsyrwan
  */
 public class Utils {
     static class Identifier {
-        private String name;
+        private String name = "";
         private Token token = null;
         public Identifier(Token t) {
             this.token = t;
@@ -46,7 +48,7 @@ public class Utils {
             if (isToken())
                 return token.equals(((Identifier)o).token);
             else
-                return name.equals(name);
+                return ((Identifier)o).name.equals(name);
         }
 
         @Override
@@ -59,37 +61,32 @@ public class Utils {
         
     }
     static class RulesSet {
-        private Hashtable<Identifier,HashSet<HashSet<Identifier> > > rules;
-        private boolean first_time = false;
+        private Hashtable<Identifier,HashSet<Vector<Identifier> > > rules;
+        private boolean first_time = true;
         private Identifier start = null;
         public RulesSet(){
-            rules = new Hashtable<Identifier, HashSet<HashSet<Identifier>>>();
+            rules = new Hashtable<Identifier, HashSet<Vector<Identifier>>>();
         }
         
-        public void addRule(String key, String val11,String val12, String val21, String val22) {
-            addRule(new Identifier(key), new Identifier(val11), new Identifier(val12),
-                    new Identifier(val21), new Identifier(val22));
-        }
-        public void addRule(Identifier key, Identifier val11, Identifier val12, Identifier val21, Identifier val22){
-            HashSet<Identifier> right1 = new HashSet<Identifier>();
-            if (!"".equals(val11.name))
-                right1.add(val11);
-            if (!"".equals(val12.name))
-                right1.add(val12);
-            
-            HashSet<Identifier> right2 = new HashSet<Identifier>();
-            if (!val21.name.equals(""))
-                right2.add(val21);
-            if (!val22.name.equals(""))
-                right2.add(val22);
-            
-            HashSet<HashSet<Identifier> > right = new HashSet<HashSet<Identifier>>();
-            right.add(right1);
-            right.add(right2);
-            addRule(key, right);
+        
+        public void addRule(String key ,Vector<Identifier> r1, Vector<Identifier> r2, Vector<Identifier> r3){
+            if (first_time) {
+                start = new Identifier(key);
+                first_time = false;
+            }
+            HashSet<Vector<Identifier> > sets = new HashSet<Vector<Identifier>>();
+            if (!r1.isEmpty())
+                sets.add(r1);
+            if (!r2.isEmpty())
+                sets.add(r2);
+            if (!r3.isEmpty())
+                sets.add(r3);
+            rules.put(new Identifier(key), sets);
         }
         
-        public void addRule(Identifier key, HashSet<HashSet<Identifier> > contents) {
+        
+        
+        public void addRule(Identifier key, HashSet<Vector<Identifier> > contents) {
             if (first_time) {
                 start = key;
                 first_time = false;
@@ -97,19 +94,12 @@ public class Utils {
             rules.put(key, contents);
         }
         
-        public void addRule(Identifier key, HashSet<Identifier> set, boolean one) {
-            HashSet<HashSet<Identifier> > hash = new HashSet<HashSet<Identifier>>();
-            hash.add(set);
-            rules.put(key, hash);
-        }
         
-        public HashSet<Identifier> getMultiKey(Identifier identifier) {
-            HashSet<Identifier> hash = new HashSet<Identifier>();
-            HashSet<Identifier> oneToken = new HashSet<Identifier>();
-            oneToken.add(identifier);
-            for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
-                for (HashSet<Identifier> i : ii.getValue()) {
-                    if (i.equals(oneToken)){
+        public Vector<Identifier> getMultiKey(Identifier identifier) {
+            Vector<Identifier> hash = new Vector<Identifier>();
+            for (Entry<Identifier, HashSet<Vector<Identifier> > > ii : rules.entrySet() ){
+                for (Vector<Identifier> i : ii.getValue()) {
+                    if (i.contains(identifier)){
                         hash.add(ii.getKey());
                     }
                 }
@@ -122,19 +112,19 @@ public class Utils {
         public Identifier getKey(Identifier identifier){
             // TODO S -> AB | a, A -> CDA | a, B -> C
             // content = a & HashSet = S, A
-            HashSet<Identifier> hash = new HashSet<Identifier>();
+            Vector<Identifier> hash = new Vector<Identifier>();
             hash.add(identifier);
             return getKey(hash);
         }
         
-        public Identifier getKey(HashSet<Identifier> contents){
+        public Identifier getKey(Vector<Identifier> contents){
             // S -> AB | a, A -> CDA | a, B -> C
             // contents = AB
             // return S
             Identifier wanted_key = null;
-            for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
-                for (HashSet<Identifier> i : ii.getValue()) {
-                    if (i.equals(contents)){
+            for (Entry<Identifier, HashSet<Vector<Identifier> > > ii : rules.entrySet() ){
+                for (Vector<Identifier> i : ii.getValue()) {
+                    if (i.containsAll(contents)){
                         wanted_key = ii.getKey();
                     }
                 }
