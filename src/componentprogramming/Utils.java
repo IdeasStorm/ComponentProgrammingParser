@@ -91,6 +91,7 @@ public class Utils {
                 for (HashSet<Identifier> i : ii.getValue()) {
                     if (i.equals(contents)){
                         wanted_key = ii.getKey();
+                        break;
                     }
                 }
             }
