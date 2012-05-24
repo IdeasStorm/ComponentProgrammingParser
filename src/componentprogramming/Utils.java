@@ -76,6 +76,9 @@ public class Utils {
         
         
         public Identifier getKey(HashSet<Identifier> contents){
+            // S -> AB | a, A -> CDA | a, B -> C
+            // contents = AB
+            // return S
             Identifier wanted_key = null;
             for (Entry<Identifier, HashSet<HashSet<Identifier> > > ii : rules.entrySet() ){
                 for (HashSet<Identifier> i : ii.getValue()) {
@@ -87,6 +90,12 @@ public class Utils {
             
             return wanted_key;
             
+        }
+        
+        public HashSet<Identifier> getKey(Identifier content){
+            // TODO S -> AB | a, A -> CDA | a, B -> C
+            // content = a & HashSet = S, A
+            return new HashSet<Identifier>();
         }
         
         public Identifier getStart() {
