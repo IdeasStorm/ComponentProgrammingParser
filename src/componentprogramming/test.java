@@ -59,8 +59,10 @@ public class test {
         rules.addRule("COM", _st(typeToken.comma));
         rules.addRule("N", _st(typeToken.Num));
         rules.addRule("AMP", _st(typeToken.ParallelSign));
-        CompoParser cp = new CompoParser("(<3,4><4,4>)(<4,2>)");
-        Boolean res = cp.parse(rules);
+        rules.addRule("CAB", _st(typeToken.closeBrace));
+        rules.addRule("OAB", _st(typeToken.openBrace));
+        CompoParser cp = new CompoParser(rules);
+        Boolean res = cp.check("(<3,4><4,4>)(<4,2>)");
         System.out.println(res.toString());
         //System.out.println(cp.checkValidate());
     }

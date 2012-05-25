@@ -15,8 +15,8 @@ public class CompoParser {
     private RulesSet rules;
     private CompoLexical lex;
     
-    public CompoParser(String text) {
-        lex = new CompoLexical(text);
+    public CompoParser(RulesSet rulesSet) {
+        rules = rulesSet;
     }
     
     private boolean getInandOut(Integer in, Integer out) {
@@ -90,6 +90,163 @@ public class CompoParser {
         return true;
     }
     
+    private Comp checkRecusive(Vector<Token> buffer) {
+        int n = 0;
+        boolean brace_found = false;
+        while(n < buffer.size()) {
+            if (buffer.get(n).getType() == typeToken.openBrace){
+                brace_found = true;
+                break;
+            }
+            else
+                n++;
+        }
+        if (!brace_found)
+            return checkBuffer(buffer);
+        // we're sure that there's a brace
+        Comp comp = new Comp();
+        Comp acc = new Comp();
+        n = 0;
+        while(n < buffer.size()) {
+            
+        }
+        return comp;
+    }
+    
+    public boolean check(String text) {
+        return (getOverallComp(text) != null);
+    }
+    
+    public Comp getOverallComp(String text) {
+        if (!parse(text))
+            return null;
+        return (checkBuffer(readBuffer()));
+    }
+    
+    private Vector<Token> readBuffer() {
+        Vector<Token> buffer = new Vector<Token>();
+        lex.reset();
+        while (lex.nextToken() != null){
+            buffer.add(lex.currentToken());
+        }
+        return buffer;
+    }
+        private Comp checkBuffer(Vector<Token> buffer) {
+        
+        int n = 0;
+        Comp comp = new Comp();
+        Comp acc = new Comp();
+        while(n < buffer.size()) {
+            Token token = buffer.get(n);
+            switch (token.getType()){
+                case Num:
+                    if (comp.isEmpty()){
+                        comp.i = token.getInt();
+                        n += 2;
+                        comp.j = buffer.get(n).getInt();
+                    }
+                    else {
+                        if (comp.j == token.getInt()){
+                            n += 2;
+                            comp.j = buffer.get(n).getInt();
+                        }else 
+                            return null;
+                    }
+                    break;
+                    
+                case ParallelSign:
+                    acc.joinParallel(comp);
+                    comp.clear();
+                    break;
+                    
+                case openBrace:
+                    n++;
+                    int balance = 1;
+                    token = buffer.get(n);
+                    Vector<Token> inner_buffer = new Vector<Token>();
+                    while (balance != 0){
+                        if (token.getType() == typeToken.openBrace)
+                            balance++;
+                        else if (token.getType() == typeToken.closeBrace)
+                            balance--;
+                        if (balance != 0) {
+                            inner_buffer.add(token);
+                            n++;
+                            token = buffer.get(n);
+                        }
+                    }
+                    Comp inner_comp = checkBuffer(inner_buffer);
+                    if (inner_comp == null)
+                        return null;
+                    if (!comp.join(inner_comp))
+                        return null;
+                    break;
+            }
+            n++;
+        }
+        acc.joinParallel(comp);
+        return acc;
+    }
+    public static class Comp {
+        int i;
+        int j;
+        
+        boolean isEmpty(){
+            return  (i == 0 || j == 0);
+        }
+        void clear(){
+            i = j = 0;
+        }
+        public Comp(){
+            i = j = 0;
+        }
+        public Comp(int i , int j) {
+            this.i = i;
+            this.j = j;
+        }
+        
+        Comp(Token a, Token b){
+            i = a.getInt();
+            j = b.getInt();
+        }
+        Comp(CompoLexical lex) {
+            i = lex.currentToken().getInt();
+            lex.nextToken();
+            j = lex.currentToken().getInt();
+        }
+
+        public Comp(Vector<Token> v) {
+            i = v.get(i).getInt();
+            j = v.get(i+1).getInt();
+        }
+        
+        void joinParallel(Comp other) {
+            i += other.i;
+            j += other.j;
+        }
+        
+        boolean join(Comp other) {
+            if (isEmpty()){
+                this.i = other.i;
+                this.j = other.j;
+                return true;
+            }
+            if (j == other.i){
+                j = other.j;
+                return true;
+            }
+            else
+                return false;
+        }
+                
+        Comp check(Comp other) {
+            if (j == other.i)
+                return new Comp(i,other.j);
+            else
+                return null;
+        }
+    }
+
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
             Vector<Utils.Identifier> v2) {
         Vector<Utils.Identifier> res = new Vector<Utils.Identifier>();
@@ -118,9 +275,9 @@ public class CompoParser {
         return res;
     }
     
-    public boolean parse(Utils.RulesSet rules) {
+    public boolean parse(String text) {
         int n = 0;
-        this.rules = rules;
+        lex = new CompoLexical(text);
         LinkedList<LinkedList<Vector<Utils.Identifier>> > Table  
                 = new LinkedList<LinkedList<Vector<Utils.Identifier>>>();
         
