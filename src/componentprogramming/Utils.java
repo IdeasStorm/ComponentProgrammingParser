@@ -63,7 +63,7 @@ public class Utils {
         
         
     }
-    static class RulesSet {
+    public static class RulesSet {
         private Hashtable<Identifier,HashSet<Vector<Identifier> > > rules;
         private boolean first_time = true;
         private Identifier start = null;
