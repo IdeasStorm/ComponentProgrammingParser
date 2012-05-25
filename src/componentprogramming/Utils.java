@@ -110,9 +110,11 @@ public class Utils {
         
         public Vector<Identifier> getMultiKey(Identifier identifier) {
             Vector<Identifier> hash = new Vector<Identifier>();
+            Vector<Identifier> one = new Vector<Identifier>();
+            one.add(identifier);
             for (Entry<Identifier, HashSet<Vector<Identifier> > > ii : rules.entrySet() ){
                 for (Vector<Identifier> i : ii.getValue()) {
-                    if (i.contains(identifier)){
+                    if (i.equals(one)){
                         hash.add(ii.getKey());
                     }
                 }
@@ -154,7 +156,7 @@ public class Utils {
             Identifier wanted_key = null;
             for (Entry<Identifier, HashSet<Vector<Identifier> > > ii : rules.entrySet() ){
                 for (Vector<Identifier> i : ii.getValue()) {
-                    if (is_in(i, contents)){
+                    if ((i.equals(contents))){
                         wanted_key = ii.getKey();
                         break;
                     }
