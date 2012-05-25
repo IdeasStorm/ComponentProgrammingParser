@@ -91,7 +91,7 @@ public class Utils {
                 sets.add(r2);
             if (!r3.isEmpty())
                 sets.add(r3);
-            if (rules.contains(new Identifier(key)))
+            if (rules.containsKey(new Identifier(key)))
                 rules.get(new Identifier(key)).addAll(sets);
             else
                 rules.put(new Identifier(key), sets);
