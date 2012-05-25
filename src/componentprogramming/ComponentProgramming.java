@@ -17,26 +17,26 @@ public class ComponentProgramming {
         // TODO code application logic here
         CompoLexical myt = new CompoLexical("<");
         myt.nextToken();
-        String s  = myt.ImageToken();
+        String s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
         myt.nextToken();
-        s  = myt.ImageToken();
+        s  = myt.imageToken();
     }
 }

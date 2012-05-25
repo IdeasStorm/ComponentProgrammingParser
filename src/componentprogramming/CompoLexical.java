@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 package componentprogramming;
-import java.io.*;
-import java.util.*;
-/**
- *
- * @author mhdsyrwan
- */
 
 public class CompoLexical {
 
@@ -18,56 +12,66 @@ public class CompoLexical {
     }     
     public static class Token {
         
+        private  typeToken type;
+        private  String s;
+        
         public Token(){
             
         }
-public Token(String str){
-    s = str ;
-    if (s.length() == 1 ){
-        switch(s.charAt(0))
-        {
-            case '(':
-                type = typeToken.openBrace ;
-                break;
-            case ')':
-                type = typeToken.closeBrace ;
-                break;
-            case '<':
-                type = typeToken.openTok_brace ;
-                break;
-            case '>':
-                type = typeToken.closeTok_brace ;
-                break;
-            case '.':
-                type = typeToken.dot;
-                break;
-            case '&':
-                type = typeToken.ParallelSign ;
-                break;
-            case ',':
-                type = typeToken.comma ;
-                break;
-        }
-    }else
-        type = typeToken.string;
-}
+        
         public Token(typeToken t) {
             this.type = t;
             this.s = t.toString();
         }
-        public void Load(String str)
-        {
-            s = str ;            
+        
+        public Token(String str){
+            s = str ;
+            if (s.length() == 1 ){
+                switch(s.charAt(0))
+                {
+                    case '(':
+                        type = typeToken.openBrace ;
+                        break;
+                    case ')':
+                        type = typeToken.closeBrace ;
+                        break;
+                    case '<':
+                        type = typeToken.openTok_brace ;
+                        break;
+                    case '>':
+                        type = typeToken.closeTok_brace ;
+                        break;
+                    case '.':
+                        type = typeToken.dot;
+                        break;
+                    case '&':
+                        type = typeToken.ParallelSign ;
+                        break;
+                    case ',':
+                        type = typeToken.comma ;
+                        break;
+                }
+            }
+            else
+                type = typeToken.string;
         }
-        public String toString()
-        {
-            return s ;
+        
+        public void load(String str) { 
+            s = str; 
         }
-        public int getInt()
-        {
+        
+        public String toString() { 
+            return s; 
+        }
+        
+        public int getInt() {
             if (type == typeToken.Num)
                 return Integer.parseInt(s);
             return -1 ;
+        }
+        
+        public typeToken getType() {
+            return type;
         }
 
         @Override
@@ -88,21 +92,21 @@ public Token(String str){
             hash = 71 * hash + (this.type != null ? this.type.hashCode() : 0);
             return hash;
         }
-
-        
-        
-        private  typeToken type ;
-        private  String s ;
     }
 
+    NFA nfa;
+    String Input;
+    Token mCurrentToken;
+    nodeNFA CurrentState ;
+    int indexInput;
 
     CompoLexical(String str)
     {
-       Input = str ; 
+       Input = str; 
        nfa = new NFA();
-       indexInput = 0 ;
+       indexInput = 0;
        CurrentState = nfa.getStartState() ;
-       mCurrentToken = null ;
+       mCurrentToken = null;
     }
     
     Token nextToken(){
@@ -174,7 +178,7 @@ public Token(String str){
         return mCurrentToken;
     }
     
-    String ImageToken(){
+    String imageToken(){
         //TODO return token string
         if (currentToken() !=null)
             return currentToken().toString();
@@ -185,12 +189,13 @@ public Token(String str){
         return (indexInput > Input.length());
     }
     
-    NFA nfa ;
-    String Input ;
-    Token mCurrentToken;
-    nodeNFA CurrentState ;
-    int indexInput ;
-    
+    public void reset() {
+        indexInput = 0;
+        nfa = new NFA();
+        indexInput = 0;
+        CurrentState = nfa.getStartState() ;
+        mCurrentToken = null;
+    }
 }
 
 /*
