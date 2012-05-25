@@ -34,8 +34,8 @@ public class CompoParser {
         }
     }
     
-    public CompoParser(String Text) {
-        //this.Text = Text;
+    public CompoParser() {
+        
     }
     
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
@@ -44,37 +44,25 @@ public class CompoParser {
         if (v1.isEmpty()) {
             for (Utils.Identifier iden : v2) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                //if (!vect.contains(iden))
-                    vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(iden);
                 res.add(rules.getKey(vect));
             }
         }
-        
-        if (v2.isEmpty()){
+        else if (v2.isEmpty()){
             for (Utils.Identifier identifier : v1) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                    vect.add(identifier);
-                //if (!vect.contains(iden))
-            //        vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(identifier);
                 res.add(rules.getKey(vect));
             }
         }
         for (Utils.Identifier identifier : v1) {
             for (Utils.Identifier iden : v2) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                    vect.add(identifier);
-                //if (!vect.contains(iden))
-                    vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(identifier);
+                vect.add(iden);
                 res.add(rules.getKey(vect));
             }
         }
-        
         return res;
     }
     
@@ -116,7 +104,6 @@ public class CompoParser {
                 row.add((Vector<Identifier>) V.clone());   
             }
             Table.add((LinkedList<Vector<Identifier>>)row.clone());
-            //TODO do somehting
         }
         if (Table.getLast().getLast().contains(rules.getStart()))
             return true;
