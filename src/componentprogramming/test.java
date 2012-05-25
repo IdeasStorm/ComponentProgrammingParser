@@ -47,8 +47,8 @@ public class test {
         rules.addRule("S1", _s(_t("<"),_t(typeToken.Num)),empty, empty);
         rules.addRule("S2", _s(_t(typeToken.comma),"S3"),empty, empty);
         rules.addRule("S3", _s(_t(typeToken.Num),_t(typeToken.closeTok_brace)),empty, empty);
-        CompoParser cp = new CompoParser();
-        Boolean res = cp.parse("<3,4>", rules);
+        CompoParser cp = new CompoParser("<3,4>");
+        Boolean res = cp.parse(rules);
         System.out.println(res.toString());
     }
 }

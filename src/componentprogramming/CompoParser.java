@@ -33,9 +33,11 @@ public class CompoParser {
             this.set = set;
         }
     }
+    private RulesSet rules;
+    private CompoLexical lex;
     
-    public CompoParser() {
-        
+    public CompoParser(String text) {
+        lex = new CompoLexical(text);
     }
     
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
@@ -66,7 +68,7 @@ public class CompoParser {
         return res;
     }
     
-    public boolean parse(String string, Utils.RulesSet rules) {
+    public boolean parse(Utils.RulesSet rules) {
         int n = 0;
         this.rules = rules;
         LinkedList<LinkedList<Vector<Utils.Identifier>> > Table  
@@ -74,7 +76,6 @@ public class CompoParser {
         
         LinkedList<Vector<Utils.Identifier>> row = 
                     new LinkedList<Vector<Utils.Identifier>>();
-        CompoLexical lex = new CompoLexical(string);
         while(lex.nextToken() != null) {
             // GET Gramer for input and put it in hash
             Vector<Identifier> vect = rules.getMultiKey(new Identifier(lex.currentToken()));
@@ -110,6 +111,4 @@ public class CompoParser {
         else
             return false;
     }
-    
-    private RulesSet rules;
 }
