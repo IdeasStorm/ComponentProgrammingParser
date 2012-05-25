@@ -19,6 +19,37 @@ public class CompoParser {
         lex = new CompoLexical(text);
     }
     
+    public boolean checkValidate() {
+        boolean coma = false, parallel = false, openTok_brace = false, first = true;
+        int outNum = 0, inNum = 0;
+        while(lex.nextToken() != null) {
+            Token token = lex.currentToken();
+            
+            if (openTok_brace) {
+                inNum = token.getInt();
+                if (!parallel && inNum != outNum && !first)
+                    return false;
+                openTok_brace = false;
+                parallel = false;
+                outNum = inNum = 0;
+                first = false;
+            }
+            
+            if (coma) {
+                outNum = token.getInt();
+                coma = false;
+            }
+            
+            if (token.getType() == typeToken.comma)
+                coma = true;
+            if (token.getType() == typeToken.ParallelSign)
+                parallel = true;
+            if (token.getType() == typeToken.openTok_brace)
+                openTok_brace = true;   
+        }
+        return true;
+    }
+    
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
             Vector<Utils.Identifier> v2) {
         Vector<Utils.Identifier> res = new Vector<Utils.Identifier>();
@@ -85,8 +116,10 @@ public class CompoParser {
             }
             Table.add((LinkedList<Vector<Identifier>>)row.clone());
         }
-        if (Table.getLast().getLast().contains(rules.getStart()))
-            return true;
+        if (Table.getLast().getLast().contains(rules.getStart())) {
+            lex.reset();
+            return checkValidate();
+        }
         else
             return false;
     }
