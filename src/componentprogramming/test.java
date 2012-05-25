@@ -48,7 +48,6 @@ public class test {
         RulesSet rules = new RulesSet();
         rules.addRule("S", _s("S", "S5"),_s("S1","S2"));
         rules.addRule("S5", _s("AMP","S"));        
-        rules.addRule("S", _s("S","S"));
         rules.addRule("S", _s("S","S"),_s("S4","CAB"));
         rules.addRule("S4", _s("OAB", "S"));
         rules.addRule("S5", _s("AMP","S"));
@@ -60,8 +59,9 @@ public class test {
         rules.addRule("COM", _st(typeToken.comma));
         rules.addRule("N", _st(typeToken.Num));
         rules.addRule("AMP", _st(typeToken.ParallelSign));
-        CompoParser cp = new CompoParser("<3,4> <3,4>");
+        CompoParser cp = new CompoParser("(<3,4><4,4>)(<4,2>)");
         Boolean res = cp.parse(rules);
         System.out.println(res.toString());
+        //System.out.println(cp.checkValidate());
     }
 }
