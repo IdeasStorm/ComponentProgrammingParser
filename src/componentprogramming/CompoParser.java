@@ -19,6 +19,45 @@ public class CompoParser {
         lex = new CompoLexical(text);
     }
     
+    private boolean getInandOut(Integer in, Integer out) {
+        boolean coma = false, parallel = false, openTok_brace = false, first = true;
+        int outNum = 0, inNum = 0;
+        in = out = 0;
+        while(lex.nextToken() != null) {
+            Token token = lex.currentToken();
+            if (token.getType() == typeToken.closeBrace) {
+                return true;
+            }
+            
+            if (openTok_brace) {
+                inNum = token.getInt();
+                if (!parallel && inNum != outNum && !first)
+                    return false;
+                else if (parallel) {
+                    in += inNum;
+                    out += outNum;
+                }
+                openTok_brace = false;
+                parallel = false;
+                outNum = inNum = 0;
+                first = false;
+            }
+            
+            if (coma) {
+                outNum = token.getInt();
+                coma = false;
+            }
+            
+            if (token.getType() == typeToken.comma)
+                coma = true;
+            if (token.getType() == typeToken.ParallelSign)
+                parallel = true;
+            if (token.getType() == typeToken.openTok_brace)
+                openTok_brace = true;
+        }
+        return false;
+    }
+    
     public boolean checkValidate() {
         boolean coma = false, parallel = false, openTok_brace = false, first = true;
         int outNum = 0, inNum = 0;
@@ -45,7 +84,8 @@ public class CompoParser {
             if (token.getType() == typeToken.ParallelSign)
                 parallel = true;
             if (token.getType() == typeToken.openTok_brace)
-                openTok_brace = true;   
+                openTok_brace = true;
+            
         }
         return true;
     }
