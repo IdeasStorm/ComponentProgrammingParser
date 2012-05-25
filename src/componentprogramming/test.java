@@ -42,7 +42,8 @@ public class test {
     public static void main(String[] args) {
         RulesSet rules = new RulesSet();
         //rules.addRule("S", getSet(new Identifier(new Token("<")), ""), getSet(new Identifier(new Token(">")), ""), empty);
-        rules.addRule("S", _s("C", ""),empty,empty);
+        rules.addRule("S", _s("S", "S5"),_s("C",""),empty);
+        rules.addRule("S5", _s("AMB","C"),empty,empty);
         rules.addRule("C", _s("S1","S2"),empty, empty);
         rules.addRule("S1", _s(_t("<"),_t(typeToken.Num)),empty, empty);
         rules.addRule("S2", _s(_t(typeToken.comma),"S3"),empty, empty);

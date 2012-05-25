@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Stack;
 import java.util.Vector;
 /**
  *
@@ -67,7 +68,14 @@ public class Utils {
         public RulesSet(){
             rules = new Hashtable<Identifier, HashSet<Vector<Identifier>>>();
         }
+        private static Vector<Identifier> empty = new Vector<Identifier>();
+        public void addRule(String key ,Vector<Identifier> r1, Vector<Identifier> r2){
+            addRule(key, r1, r2, empty);
+        }
         
+        public void addRule(String key ,Vector<Identifier> r1){
+            addRule(key, r1, empty, empty);
+        }
         
         public void addRule(String key ,Vector<Identifier> r1, Vector<Identifier> r2, Vector<Identifier> r3){
             if (first_time) {
