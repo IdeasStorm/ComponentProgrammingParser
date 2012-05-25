@@ -46,15 +46,12 @@ public class test {
     private static Vector<Identifier> empty = new Vector<Identifier>();
     public static void main(String[] args) {
         RulesSet rules = new RulesSet();
-        //rules.addRule("S", getSet(new Identifier(new Token("<")), ""), getSet(new Identifier(new Token(">")), ""), empty);
         rules.addRule("S", _s("S", "S5"),_s("S1","S2"));
-<<<<<<< HEAD
         rules.addRule("S5", _s("AMP","S"));        
-=======
         rules.addRule("S", _s("S","S"));
+        rules.addRule("S", _s("S","S"),_s("S4","CAB"));
+        rules.addRule("S4", _s("OAB", "S"));
         rules.addRule("S5", _s("AMP","S"));
-        //rules.addRule("C", _s("S1","S2"));
->>>>>>> 2375f5a1460e958d1fef331b0e2f1ec2572d5c13
         rules.addRule("S1", _s("OB","N"));
         rules.addRule("S2", _s("COM","S3"));
         rules.addRule("S3", _s("N","CB"));
@@ -63,11 +60,7 @@ public class test {
         rules.addRule("COM", _st(typeToken.comma));
         rules.addRule("N", _st(typeToken.Num));
         rules.addRule("AMP", _st(typeToken.ParallelSign));
-<<<<<<< HEAD
-        CompoParser cp = new CompoParser("<3,4><4,2>");
-=======
         CompoParser cp = new CompoParser("<3,4> <3,4>");
->>>>>>> 2375f5a1460e958d1fef331b0e2f1ec2572d5c13
         Boolean res = cp.parse(rules);
         System.out.println(res.toString());
     }
