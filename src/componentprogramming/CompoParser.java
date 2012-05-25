@@ -33,9 +33,11 @@ public class CompoParser {
             this.set = set;
         }
     }
+    private RulesSet rules;
+    private CompoLexical lex;
     
-    public CompoParser(String Text) {
-        //this.Text = Text;
+    public CompoParser(String text) {
+        lex = new CompoLexical(text);
     }
     
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 
@@ -44,41 +46,29 @@ public class CompoParser {
         if (v1.isEmpty()) {
             for (Utils.Identifier iden : v2) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                //if (!vect.contains(iden))
-                    vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(iden);
                 res.add(rules.getKey(vect));
             }
         }
-        
-        if (v2.isEmpty()){
+        else if (v2.isEmpty()){
             for (Utils.Identifier identifier : v1) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                    vect.add(identifier);
-                //if (!vect.contains(iden))
-            //        vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(identifier);
                 res.add(rules.getKey(vect));
             }
         }
         for (Utils.Identifier identifier : v1) {
             for (Utils.Identifier iden : v2) {
                 Vector<Utils.Identifier> vect = new Vector<Utils.Identifier>();
-                //if (!vect.contains(identifier))
-                    vect.add(identifier);
-                //if (!vect.contains(iden))
-                    vect.add(iden);
-                // GET hash for hash & put it in res
+                vect.add(identifier);
+                vect.add(iden);
                 res.add(rules.getKey(vect));
             }
         }
-        
         return res;
     }
     
-    public boolean parse(String string, Utils.RulesSet rules) {
+    public boolean parse(Utils.RulesSet rules) {
         int n = 0;
         this.rules = rules;
         LinkedList<LinkedList<Vector<Utils.Identifier>> > Table  
@@ -86,7 +76,6 @@ public class CompoParser {
         
         LinkedList<Vector<Utils.Identifier>> row = 
                     new LinkedList<Vector<Utils.Identifier>>();
-        CompoLexical lex = new CompoLexical(string);
         while(lex.nextToken() != null) {
             // GET Gramer for input and put it in hash
             Vector<Identifier> vect = rules.getMultiKey(new Identifier(lex.currentToken()));
@@ -116,13 +105,10 @@ public class CompoParser {
                 row.add((Vector<Identifier>) V.clone());   
             }
             Table.add((LinkedList<Vector<Identifier>>)row.clone());
-            //TODO do somehting
         }
         if (Table.getLast().getLast().contains(rules.getStart()))
             return true;
         else
             return false;
     }
-    
-    private RulesSet rules;
 }
