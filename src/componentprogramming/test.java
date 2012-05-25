@@ -42,12 +42,12 @@ public class test {
     public static void main(String[] args) {
         RulesSet rules = new RulesSet();
         //rules.addRule("S", getSet(new Identifier(new Token("<")), ""), getSet(new Identifier(new Token(">")), ""), empty);
-        rules.addRule("S", _s("S", "S5"),_s("C",""),empty);
-        rules.addRule("S5", _s("AMB","C"),empty,empty);
-        rules.addRule("C", _s("S1","S2"),empty, empty);
-        rules.addRule("S1", _s(_t("<"),_t(typeToken.Num)),empty, empty);
-        rules.addRule("S2", _s(_t(typeToken.comma),"S3"),empty, empty);
-        rules.addRule("S3", _s(_t(typeToken.Num),_t(typeToken.closeTok_brace)),empty, empty);
+        rules.addRule("S", _s("S", "S5"),_s("C",""));
+        rules.addRule("S5", _s("AMB","C"));
+        rules.addRule("C", _s("S1","S2"));
+        rules.addRule("S1", _s(_t("<"),_t(typeToken.Num)));
+        rules.addRule("S2", _s(_t(typeToken.comma),"S3"));
+        rules.addRule("S3", _s(_t(typeToken.Num),_t(typeToken.closeTok_brace)));
         CompoParser cp = new CompoParser("<3,4>");
         Boolean res = cp.parse(rules);
         System.out.println(res.toString());
