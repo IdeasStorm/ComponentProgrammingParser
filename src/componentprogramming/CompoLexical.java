@@ -3,13 +3,6 @@
  * and open the template in the editor.
  */
 package componentprogramming;
-import com.sun.xml.internal.ws.message.stream.StreamAttachment;
-import java.io.*;
-import java.util.*;
-/**
- *
- * @author mhdsyrwan
- */
 
 public class CompoLexical {
 
@@ -24,6 +17,11 @@ public class CompoLexical {
         
         public Token(){
             
+        }
+        
+        public Token(typeToken t) {
+            this.type = t;
+            this.s = t.toString();
         }
         
         public Token(String str){
@@ -58,12 +56,7 @@ public class CompoLexical {
                 type = typeToken.string;
         }
         
-        public Token(typeToken t) {
-            this.type = t;
-            this.s = t.toString();
-        }
-        
-        public void Load(String str) { 
+        public void load(String str) { 
             s = str; 
         }
         
