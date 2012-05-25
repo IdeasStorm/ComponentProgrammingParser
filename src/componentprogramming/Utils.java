@@ -46,6 +46,8 @@ public class Utils {
 
         @Override
         public boolean equals(Object o) {
+            if (!(o instanceof Identifier))
+                return false;
             if (isToken())
                 return token.equals(((Identifier)o).token);
             else
@@ -89,7 +91,10 @@ public class Utils {
                 sets.add(r2);
             if (!r3.isEmpty())
                 sets.add(r3);
-            rules.put(new Identifier(key), sets);
+            if (rules.contains(new Identifier(key)))
+                rules.get(new Identifier(key)).addAll(sets);
+            else
+                rules.put(new Identifier(key), sets);
         }
         
         
