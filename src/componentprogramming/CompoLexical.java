@@ -94,14 +94,19 @@ public class CompoLexical {
         }
     }
 
+    NFA nfa;
+    String Input;
+    Token mCurrentToken;
+    nodeNFA CurrentState ;
+    int indexInput;
 
     CompoLexical(String str)
     {
-       Input = str ; 
+       Input = str; 
        nfa = new NFA();
-       indexInput = 0 ;
+       indexInput = 0;
        CurrentState = nfa.getStartState() ;
-       mCurrentToken = null ;
+       mCurrentToken = null;
     }
     
     Token nextToken(){
@@ -173,7 +178,7 @@ public class CompoLexical {
         return mCurrentToken;
     }
     
-    String ImageToken(){
+    String imageToken(){
         //TODO return token string
         if (currentToken() !=null)
             return currentToken().toString();
@@ -184,12 +189,13 @@ public class CompoLexical {
         return (indexInput > Input.length());
     }
     
-    NFA nfa ;
-    String Input ;
-    Token mCurrentToken;
-    nodeNFA CurrentState ;
-    int indexInput ;
-    
+    public void reset() {
+        indexInput = 0;
+        nfa = new NFA();
+        indexInput = 0;
+        CurrentState = nfa.getStartState() ;
+        mCurrentToken = null;
+    }
 }
 
 /*
