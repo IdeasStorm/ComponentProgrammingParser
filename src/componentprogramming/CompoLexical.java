@@ -19,56 +19,66 @@ public class CompoLexical {
     }     
     public static class Token {
         
+        private  typeToken type;
+        private  String s;
+        
         public Token(){
             
         }
-public Token(String str){
-    s = str ;
-    if (s.length() == 1 ){
-        switch(s.charAt(0))
-        {
-            case '(':
-                type = typeToken.openBrace ;
-                break;
-            case ')':
-                type = typeToken.closeBrace ;
-                break;
-            case '<':
-                type = typeToken.openTok_brace ;
-                break;
-            case '>':
-                type = typeToken.closeTok_brace ;
-                break;
-            case '.':
-                type = typeToken.dot;
-                break;
-            case '&':
-                type = typeToken.ParallelSign ;
-                break;
-            case ',':
-                type = typeToken.comma ;
-                break;
+        
+        public Token(String str){
+            s = str ;
+            if (s.length() == 1 ){
+                switch(s.charAt(0))
+                {
+                    case '(':
+                        type = typeToken.openBrace ;
+                        break;
+                    case ')':
+                        type = typeToken.closeBrace ;
+                        break;
+                    case '<':
+                        type = typeToken.openTok_brace ;
+                        break;
+                    case '>':
+                        type = typeToken.closeTok_brace ;
+                        break;
+                    case '.':
+                        type = typeToken.dot;
+                        break;
+                    case '&':
+                        type = typeToken.ParallelSign ;
+                        break;
+                    case ',':
+                        type = typeToken.comma ;
+                        break;
+                }
+            }
+            else
+                type = typeToken.string;
         }
-    }else
-        type = typeToken.string;
-}
+        
         public Token(typeToken t) {
             this.type = t;
             this.s = t.toString();
         }
-        public void Load(String str)
-        {
-            s = str ;            
+        
+        public void Load(String str) { 
+            s = str; 
         }
-        public String toString()
-        {
-            return s ;
+        
+        public String toString() { 
+            return s; 
         }
-        public int getInt()
-        {
+        
+        public int getInt() {
             if (type == typeToken.Num)
                 return Integer.parseInt(s);
             return -1 ;
+        }
+        
+        public typeToken getType() {
+            return type;
         }
 
         @Override
@@ -89,11 +99,6 @@ public Token(String str){
             hash = 71 * hash + (this.type != null ? this.type.hashCode() : 0);
             return hash;
         }
-
-        
-        
-        private  typeToken type ;
-        private  String s ;
     }
 
 
