@@ -4,35 +4,14 @@
  */
 package componentprogramming;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.LinkedList;
 import componentprogramming.Utils.*;
+import componentprogramming.CompoLexical.*;
 import java.util.Vector;
 
-/**
- *
- * @author mhdaljobory
- */
 public class CompoParser {
     
-    class MySet {
-        private HashSet<Utils.Identifier> set;
-
-        /**
-         * @return the set
-         */
-        public HashSet<Utils.Identifier> getSet() {
-            return set;
-        }
-
-        /**
-         * @param set the set to set
-         */
-        public void setSet(HashSet<Utils.Identifier> set) {
-            this.set = set;
-        }
-    }
     private RulesSet rules;
     private CompoLexical lex;
     
