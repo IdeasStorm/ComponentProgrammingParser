@@ -245,6 +245,12 @@ public class CompoParser {
             else
                 return null;
         }
+
+        @Override
+        public String toString() {
+            return String.format("<%d,%d>", i,j);
+        }
+        
     }
 
     private Vector<Utils.Identifier> getIdentifiers(Vector<Utils.Identifier> v1, 

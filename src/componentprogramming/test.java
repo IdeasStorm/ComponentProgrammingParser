@@ -62,8 +62,14 @@ public class test {
         rules.addRule("CAB", _st(typeToken.closeBrace));
         rules.addRule("OAB", _st(typeToken.openBrace));
         CompoParser cp = new CompoParser(rules);
-        Boolean res = cp.check("(<3,4><4,4>)(<4,2>)");
-        System.out.println(res.toString());
+        CompoParser.Comp res_comp = cp.getOverallComp("(<3,4><4,4>)(<4,2>)");
+        if (res_comp != null)
+            System.out.println(String.format("valid, overall component is %s .", res_comp.toString()));
+        else 
+            System.out.println("not valid.");
+        // the other way
+        //Boolean res = cp.check("(<3,4><4,4>)(<4,2>)");
+        //System.out.println(res.toString());
         //System.out.println(cp.checkValidate());
     }
 }
