@@ -48,7 +48,8 @@ public class test {
         RulesSet rules = new RulesSet();
         //rules.addRule("S", getSet(new Identifier(new Token("<")), ""), getSet(new Identifier(new Token(">")), ""), empty);
         rules.addRule("S", _s("S", "S5"),_s("S1","S2"));
-        rules.addRule("S", _s("S","S"));
+        rules.addRule("S", _s("S","S"),_s("S4","CAB"));
+        rules.addRule("S4", _s("OAB", "S"));
         rules.addRule("S5", _s("AMP","S"));
         //rules.addRule("C", _s("S1","S2"));
         rules.addRule("S1", _s("OB","N"));
