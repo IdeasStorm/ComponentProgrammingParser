@@ -9,10 +9,12 @@
  * Created on May 26, 2012, 5:09:47 PM
  */
 package componentprogramming;
+
 import componentprogramming.CompoLexical.*;
 import componentprogramming.CompoParser.*;
 import componentprogramming.Utils.*;
 import java.util.Vector;
+
 /**
  *
  * @author mhdsyrwan
@@ -82,69 +84,83 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-Integer i = 0;
+    Integer i = 0;
 private void codeTextInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_codeTextInputMethodTextChanged
 // TODO add your handling code here:
-    
 }//GEN-LAST:event_codeTextInputMethodTextChanged
 
-    private static Vector<Identifier> _s(String s1, String s2){
-            return _s(new Identifier(s1), new Identifier(s2));
+    private static Vector<Identifier> _s(String s1, String s2) {
+        return _s(new Identifier(s1), new Identifier(s2));
     }
-    private static Vector<Identifier> _s(String s1, Identifier t2){
+
+    private static Vector<Identifier> _s(String s1, Identifier t2) {
         return _s(new Identifier(s1), t2);
     }
-    
-    private static Vector<Identifier> _s(Identifier t1, String s2){
+
+    private static Vector<Identifier> _s(Identifier t1, String s2) {
         return _s(t1, new Identifier(s2));
     }
-    
-    private static Vector<Identifier> _s(Identifier t1, Identifier t2){
+
+    private static Vector<Identifier> _s(Identifier t1, Identifier t2) {
         Vector<Identifier> hash = new Vector<Identifier>();
-        if (!t1.toString().equals(""))
+        if (!t1.toString().equals("")) {
             hash.add(t1);
-        if (!t2.toString().equals(""))
+        }
+        if (!t2.toString().equals("")) {
             hash.add(t2);
+        }
         return hash;
     }
-    private static Identifier _t(String s){
+
+    private static Identifier _t(String s) {
         return new Identifier(new Token(s));
     }
-    
-    private static Identifier _t(typeToken t){
+
+    private static Identifier _t(typeToken t) {
         return new Identifier(new Token(t));
     }
-    
-    private static Vector<Identifier> _st(typeToken t){
-        return _s(_t(t),"");
+
+    private static Vector<Identifier> _st(typeToken t) {
+        return _s(_t(t), "");
     }
 
 private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextKeyTyped
-// TODO add your handling code here:
-        if (codeText.getText().equals(""))
-            return;
-        RulesSet rules = new RulesSet();
-        rules.addRule("S", _s("S", "S5"),_s("S1","S2"));
-        rules.addRule("S5", _s("AMP","S"));        
-        rules.addRule("S", _s("S","S"),_s("S4","CAB"));
-        rules.addRule("S4", _s("OAB", "S"));
-        rules.addRule("S5", _s("AMP","S"));
-        rules.addRule("S1", _s("OB","N"));
-        rules.addRule("S2", _s("COM","S3"));
-        rules.addRule("S3", _s("N","CB"));
-        rules.addRule("OB", _st(typeToken.openTok_brace));
-        rules.addRule("CB", _st(typeToken.closeTok_brace));
-        rules.addRule("COM", _st(typeToken.comma));
-        rules.addRule("N", _st(typeToken.Num));
-        rules.addRule("AMP", _st(typeToken.ParallelSign));
-        rules.addRule("CAB", _st(typeToken.closeBrace));
-        rules.addRule("OAB", _st(typeToken.openBrace));
-        CompoParser cp = new CompoParser(rules);
-        CompoParser.Comp res_comp = cp.getOverallComp(codeText.getText());       
-        if (res_comp != null)
-            resultLabel.setText(String.format("valid, overall component is %s .", res_comp.toString()));
-        else 
-            resultLabel.setText("not valid.");
+    Character c = new Character(evt.getKeyChar());
+    String code = codeText.getText().concat(c.toString());
+
+
+
+    if (codeText.getText().equals("")) {
+        return;
+    }
+    RulesSet rules = new RulesSet();
+    rules.addRule("S", _s("S", "S5"), _s("S1", "S2"));
+    rules.addRule("S5", _s("AMP", "S"));
+    rules.addRule("S", _s("S", "S"), _s("S4", "CAB"));
+    rules.addRule("S4", _s("OAB", "S"));
+    rules.addRule("S5", _s("AMP", "S"));
+    rules.addRule("S1", _s("OB", "N"));
+    rules.addRule("S2", _s("COM", "S3"));
+    rules.addRule("S3", _s("N", "CB"));
+    rules.addRule("OB", _st(typeToken.openTok_brace));
+    rules.addRule("CB", _st(typeToken.closeTok_brace));
+    rules.addRule("COM", _st(typeToken.comma));
+    rules.addRule("N", _st(typeToken.Num));
+    rules.addRule("AMP", _st(typeToken.ParallelSign));
+    rules.addRule("CAB", _st(typeToken.closeBrace));
+    rules.addRule("OAB", _st(typeToken.openBrace));
+    CompoParser cp = new CompoParser(rules);
+    CompoParser.Comp res_comp = cp.getOverallComp(code);
+    try {
+        if (res_comp != null) {
+        resultLabel.setText(String.format("valid, overall component is %s .", res_comp.toString()));
+    } else {
+        resultLabel.setText("not valid.");
+    }
+    } catch (RuntimeException e) {
+        resultLabel.setText(e.toString());
+    }
+    
 }//GEN-LAST:event_codeTextKeyTyped
 
     /**
