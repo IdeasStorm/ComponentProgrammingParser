@@ -35,7 +35,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         codeText = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
         resultLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,13 +56,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(codeText);
 
-        jButton1.setText("Check");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         resultLabel.setText("no result yet");
         resultLabel.setName("resultLabel"); // NOI18N
 
@@ -75,10 +67,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resultLabel)))
+                    .addComponent(resultLabel))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -87,18 +76,12 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(resultLabel))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addComponent(resultLabel)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jButton1ActionPerformed
 Integer i = 0;
 private void codeTextInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_codeTextInputMethodTextChanged
 // TODO add your handling code here:
@@ -157,12 +140,11 @@ private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_co
         rules.addRule("CAB", _st(typeToken.closeBrace));
         rules.addRule("OAB", _st(typeToken.openBrace));
         CompoParser cp = new CompoParser(rules);
-        CompoParser.Comp res_comp = cp.getOverallComp(codeText.getText());
+        CompoParser.Comp res_comp = cp.getOverallComp(codeText.getText());       
         if (res_comp != null)
             resultLabel.setText(String.format("valid, overall component is %s .", res_comp.toString()));
         else 
             resultLabel.setText("not valid.");
-    resultLabel.setText((i++).toString());
 }//GEN-LAST:event_codeTextKeyTyped
 
     /**
@@ -203,7 +185,6 @@ private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_co
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea codeText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel resultLabel;
     // End of variables declaration//GEN-END:variables
