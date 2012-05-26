@@ -153,10 +153,10 @@ private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_co
     CompoParser.Comp res_comp = cp.getOverallComp(code);
     try {
         if (res_comp != null) {
-        resultLabel.setText(String.format("valid, overall component is %s .", res_comp.toString()));
-    } else {
-        resultLabel.setText("not valid.");
-    }
+            resultLabel.setText(String.format("valid, overall component is %s .", res_comp.toString()));
+        } else {
+            resultLabel.setText("not valid.");
+        }
     } catch (RuntimeException e) {
         resultLabel.setText(e.toString());
     }
