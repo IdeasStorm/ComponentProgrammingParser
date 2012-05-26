@@ -124,7 +124,9 @@ public class CompoLexical {
                     temp += Input.charAt(i);
                     res.type = typeToken.Num ;
                     int index = i+1 ;
-                    while(nextNode.getNextNode(Input.charAt(index)) ==nfa.loopState )
+                    //TODO @yamman here's is the bug 
+                    // i've {added index < Input.length() &&} bellow to fix it
+                    while( index < Input.length() && nextNode.getNextNode(Input.charAt(index)) ==nfa.loopState )
                     {
                         nextNode = nextNode.getNextNode(Input.charAt(index));
                         temp += Input.charAt(index);
