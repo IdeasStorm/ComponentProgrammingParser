@@ -90,28 +90,6 @@ public class CompoParser {
         return true;
     }
     
-    private Comp checkRecusive(Vector<Token> buffer) {
-        int n = 0;
-        boolean brace_found = false;
-        while(n < buffer.size()) {
-            if (buffer.get(n).getType() == typeToken.openBrace){
-                brace_found = true;
-                break;
-            }
-            else
-                n++;
-        }
-        if (!brace_found)
-            return checkBuffer(buffer);
-        // we're sure that there's a brace
-        Comp comp = new Comp();
-        Comp acc = new Comp();
-        n = 0;
-        while(n < buffer.size()) {
-            
-        }
-        return comp;
-    }
     
     public boolean check(String text) {
         return (getOverallComp(text) != null);
