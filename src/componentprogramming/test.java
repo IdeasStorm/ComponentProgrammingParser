@@ -63,7 +63,7 @@ public class test {
         rules.addRule("CAB", _st(typeToken.closeBrace));
         rules.addRule("OAB", _st(typeToken.openBrace));
         CompoParser cp = new CompoParser(rules);
-        CompoParser.Comp res_comp = cp.getOverallComp("(<1,2>&<2,1>)<3,2>");
+        CompoParser.Comp res_comp = cp.getOverallComp("(<3,4>&<4,5>)<9,2>");
         if (res_comp != null)
             System.out.println(String.format("valid, overall component is %s .", res_comp.toString()));
         else 

@@ -44,6 +44,11 @@ public class MainWindow extends javax.swing.JFrame {
         codeText.setColumns(20);
         codeText.setRows(5);
         codeText.setName("codeText"); // NOI18N
+        codeText.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                codeTextCaretUpdate(evt);
+            }
+        });
         codeText.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 codeTextInputMethodTextChanged(evt);
@@ -129,12 +134,14 @@ private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_co
     
 //    Character c = new Character(evt.getKeyChar());
 //    String code = codeText.getText().concat(c.toString());
+   
+}//GEN-LAST:event_codeTextKeyTyped
 
-    Character c = new Character(evt.getKeyChar());
+private void codeTextCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_codeTextCaretUpdate
+// TODO add your handling code here:
     String code;
-
     code = codeText.getText();
-    
+    System.out.println(code);
     if (codeText.getText().equals("")) {
         return;
     }
@@ -167,8 +174,7 @@ private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_co
     } catch (RuntimeException e) {
         resultLabel.setText(e.toString());
     }
-    
-}//GEN-LAST:event_codeTextKeyTyped
+}//GEN-LAST:event_codeTextCaretUpdate
 
     /**
      * @param args the command line arguments
