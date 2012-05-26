@@ -44,6 +44,8 @@ class NFA {
     Alphabetic.add(',');
     Alphabetic.add('.');
     Alphabetic.add(' ');
+    Alphabetic.add('\t');
+    Alphabetic.add('\n');
     LoadNFA();
     }
    
@@ -59,6 +61,8 @@ class NFA {
         startState.link('>',FinitState);
         startState.link(',',FinitState);
         startState.link(' '); 
+        startState.link('\n'); 
+        startState.link('\t'); 
         
         FinitState.link('(',FinitState);
         FinitState.link(')',FinitState);
@@ -68,6 +72,8 @@ class NFA {
         FinitState.link('>',FinitState);
         FinitState.link(',',FinitState);
         FinitState.link(' ',startState); 
+        FinitState.link('\n'); 
+        FinitState.link('\t'); 
         for (char ch = '0';ch<='9';ch++)
         {
             startState.link(ch,loopState);
@@ -78,6 +84,8 @@ class NFA {
             loopState.link(ch);
         }
         loopState.link(' ',startState);
+        loopState.link('\n',startState);
+        loopState.link('\t',startState);
         
         loopState.link('(',FinitState);
         loopState.link(')',FinitState);

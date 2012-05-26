@@ -109,7 +109,7 @@ public class CompoLexical {
        mCurrentToken = null;
     }
     
-    Token nextToken(){
+    void nextToken(){
         //TODO add next token logic
         Token res = null ;
         String temp = new String() ;
@@ -123,15 +123,20 @@ public class CompoLexical {
                 }else if (nextNode == nfa.loopState){
                     temp += Input.charAt(i);
                     res.type = typeToken.Num ;
-                    int index = i+1 ;
-                    while(nextNode.getNextNode(Input.charAt(index)) ==nfa.loopState )
+                    int index = i ;
+                    if (i+1 < Input.length())
                     {
-                        nextNode = nextNode.getNextNode(Input.charAt(index));
-                        temp += Input.charAt(index);
-                        index++;
-                        i++;
+                        index = i+1 ;
+                        while((index <Input.length())&&(nextNode.getNextNode(Input.charAt(index)) == nfa.loopState ))
+                        {
+                            nextNode = nextNode.getNextNode(Input.charAt(index));
+                            temp += Input.charAt(index);
+                            index++;
+                            i++;
+                        }
+                        indexInput = index ;
                     }
-                    indexInput = index ;
+                    
                     res.s = temp;
                     CurrentState = nextNode ;
                     break;
@@ -171,13 +176,19 @@ public class CompoLexical {
         
         if (res !=null)
             mCurrentToken = res ;
-        return res ;
     }
     Token currentToken(){
         //TOOD add currnt Token Logic
         return mCurrentToken;
     }
     
+    boolean End()
+    {
+        if (indexInput < Input.length())
+            return false ;
+        else
+            return true ;
+    }
     String imageToken(){
         //TODO return token string
         if (currentToken() !=null)

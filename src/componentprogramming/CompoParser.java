@@ -23,7 +23,9 @@ public class CompoParser {
         boolean coma = false, parallel = false, openTok_brace = false, first = true;
         int outNum = 0, inNum = 0;
         in = out = 0;
-        while(lex.nextToken() != null) {
+//        while(lex.nextToken() != null) {
+            while(!lex.End()) {
+                lex.nextToken();
             Token token = lex.currentToken();
             if (token.getType() == typeToken.closeBrace) {
                 return true;
@@ -61,7 +63,9 @@ public class CompoParser {
     public boolean checkValidate() {
         boolean coma = false, parallel = false, openTok_brace = false, first = true;
         int outNum = 0, inNum = 0;
-        while(lex.nextToken() != null) {
+//        while(lex.nextToken() != null) {
+            while(!lex.End()) {
+                lex.nextToken();
             Token token = lex.currentToken();
             
             if (openTok_brace) {
@@ -104,7 +108,9 @@ public class CompoParser {
     private Vector<Token> readBuffer() {
         Vector<Token> buffer = new Vector<Token>();
         lex.reset();
-        while (lex.nextToken() != null){
+//        while (lex.nextToken() != null){
+            while(!lex.End()) {
+                lex.nextToken();
             buffer.add(lex.currentToken());
         }
         return buffer;
@@ -267,7 +273,9 @@ public class CompoParser {
         
         LinkedList<Vector<Utils.Identifier>> row = 
                     new LinkedList<Vector<Utils.Identifier>>();
-        while(lex.nextToken() != null) {
+//        while(lex.nextToken() != null) {
+            while(!lex.End()) {
+                lex.nextToken();
             // GET Gramer for input and put it in hash
             Vector<Identifier> vect = rules.getMultiKey(new Identifier(lex.currentToken()));
             row.add(vect);

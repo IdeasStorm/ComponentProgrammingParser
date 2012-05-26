@@ -45,6 +45,7 @@ public class test {
     
     private static Vector<Identifier> empty = new Vector<Identifier>();
     public static void main(String[] args) {
+       
         RulesSet rules = new RulesSet();
         rules.addRule("S", _s("S", "S5"),_s("S1","S2"));
         rules.addRule("S5", _s("AMP","S"));        
@@ -62,11 +63,15 @@ public class test {
         rules.addRule("CAB", _st(typeToken.closeBrace));
         rules.addRule("OAB", _st(typeToken.openBrace));
         CompoParser cp = new CompoParser(rules);
-        CompoParser.Comp res_comp = cp.getOverallComp("(<3,4><4,4>)(<4,2>)");
+        CompoParser.Comp res_comp = cp.getOverallComp("<1,2><2,1>");
         if (res_comp != null)
             System.out.println(String.format("valid, overall component is %s .", res_comp.toString()));
         else 
             System.out.println("not valid.");
+        
+ 
+        //"<3,4><4,3>"
+  
         // the other way
         //Boolean res = cp.check("(<3,4><4,4>)(<4,2>)");
         //System.out.println(res.toString());

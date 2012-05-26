@@ -125,14 +125,21 @@ private void codeTextInputMethodTextChanged(java.awt.event.InputMethodEvent evt)
     }
 
 private void codeTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextKeyTyped
+    
+    
+//    Character c = new Character(evt.getKeyChar());
+//    String code = codeText.getText().concat(c.toString());
+
     Character c = new Character(evt.getKeyChar());
-    String code = codeText.getText().concat(c.toString());
+    String code;
 
-
-
+    code = codeText.getText();
+    
     if (codeText.getText().equals("")) {
         return;
     }
+    
+    
     RulesSet rules = new RulesSet();
     rules.addRule("S", _s("S", "S5"), _s("S1", "S2"));
     rules.addRule("S5", _s("AMP", "S"));
