@@ -100,8 +100,10 @@ public class CompoParser {
     }
     
     public Comp getOverallComp(String text) {
+        System.out.println("started");
         if (!parse(text))
             return null;
+        System.out.println("first passed");
         return (checkBuffer(readBuffer()));
     }
     
@@ -305,11 +307,6 @@ public class CompoParser {
             }
             Table.add((LinkedList<Vector<Identifier>>)row.clone());
         }
-        if (Table.getLast().getLast().contains(rules.getStart())) {
-            lex.reset();
-            return checkValidate();
-        }
-        else
-            return false;
+        return (Table.getLast().getLast().contains(rules.getStart()));
     }
 }
